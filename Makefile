@@ -12,11 +12,12 @@ CF   = clang-format
 C += $(wildcard src/*.c*)
 H += $(wildcard inc/*.h*)
 D += $(wildcard src/*.d*)
-E += $(wildcard *.ex?)
-E += ${wildcard lib/*.ex?}
+E += $(wildcard      *.ex?) .formatter.exs
+E += ${wildcard  lib/*.ex?}
+E += ${wildcard test/*.ex?}
 
 all: $(E)
-	mix check
+	mix test
 
 format: tmp/format_exs
 tmp/format_exs: $(E)
@@ -26,6 +27,7 @@ doc:
 
 install: doc
 	$(MAKE) update
+	mix local.hex --force
 update:
 	sudo apt update
 	sudo apt install -uy `cat apt.txt`
